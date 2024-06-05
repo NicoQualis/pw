@@ -44,6 +44,14 @@ pipeline {
                 }
             }
         }
+        
+        stage('Run Playwright Tests') {
+            steps {
+                script {
+                    bat 'npx playwright test'
+                }
+            }
+        }
     }
 
     post {
