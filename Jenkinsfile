@@ -45,10 +45,11 @@ pipeline {
             }
         }
         
-        stage('Run Playwright Tests') {
+        stage('List Report Files') {
             steps {
                 script {
-                    bat 'npx playwright test'
+                    bat 'dir playwright-report'
+                    bat 'dir'
                 }
             }
         }
