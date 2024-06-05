@@ -47,8 +47,8 @@ pipeline {
         stage('Mostrar contenido del reporte') {
             steps {
                 script {
-                    def reportContent = readFile('playwright-report/index.html')
-                    echo reportContent
+                    bat 'dir playwright-report'
+                    bat 'type playwright-report/index.html'
                 }
             }
         }
