@@ -44,14 +44,6 @@ pipeline {
                 }
             }
         }
-        stage('Mostrar contenido del reporte') {
-            steps {
-                script {
-                    bat 'dir playwright-report'
-                    bat 'type playwright-report\\index.html'
-                }
-            }
-        }
     }
 
     post {
