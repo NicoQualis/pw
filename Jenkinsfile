@@ -18,6 +18,15 @@ pipeline {
             }
         }
 
+        stage('Install Playwright Browsers') {
+            steps {
+                script {
+                    // Instala los navegadores necesarios para Playwright
+                    bat 'npx playwright install'
+                }
+            }
+        }
+
         stage('Run Playwright Tests') {
             steps {
                 script {
