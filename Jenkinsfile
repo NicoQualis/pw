@@ -48,7 +48,7 @@ pipeline {
             steps {
                 script {
                     bat 'dir playwright-report'
-                    bat 'type playwright-report/index.html'
+                    bat 'type playwright-report\\index.html'
                 }
             }
         }
