@@ -57,7 +57,7 @@ pipeline {
     post {
         always {
             // Guarda los resultados de las pruebas y registros
-            archiveArtifacts artifacts: '**/test-results/**/*.*', allowEmptyArchive: true
+            archiveArtifacts artifacts: '**/playwright-report/*.*', allowEmptyArchive: true
             
             // Publica el reporte HTML
             publishHTML(target: [
