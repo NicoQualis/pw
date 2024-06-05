@@ -44,22 +44,12 @@ pipeline {
                 }
             }
         }
-        
-        stage('List Report Files') {
-            steps {
-                script {
-                    bat 'dir playwright-report'
-                    bat 'dir'
-                }
-            }
-        }
     }
 
     post {
         always {
             // Guarda los resultados de las pruebas y registros
             archiveArtifacts artifacts: '**/test-results/**/*.*', allowEmptyArchive: true
-            junit 'test-results/**/*.xml'
             
             // Publica el reporte HTML
             publishHTML(target: [
