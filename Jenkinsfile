@@ -44,6 +44,14 @@ pipeline {
                 }
             }
         }
+        stage('Mostrar contenido del reporte') {
+            steps {
+                script {
+                    def reportContent = readFile('playwright-report/index.html')
+                    echo reportContent
+                }
+            }
+        }
     }
 
     post {
@@ -54,7 +62,7 @@ pipeline {
             // Publica el reporte HTML
             publishHTML(target: [
                 reportName: 'Playwright Report',
-                reportDir: 'playwright-html-report',
+                reportDir: 'playwright-report',
                 reportFiles: 'index.html',
                 keepAll: true,
                 alwaysLinkToLastBuild: true,

@@ -9,7 +9,6 @@
   "description": "",
   "devDependencies": {
     "@playwright/test": "latest",
-    "@types/node": "latest",
-    "playwright-html": "latest"
+    "@types/node": "latest"
   }
 }
