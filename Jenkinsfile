@@ -1,6 +1,12 @@
 pipeline {
     agent any
 
+    environment {
+        // Define environment variables
+        TEMP = "C:/Temp"  // Cambia el directorio temporal a uno con permisos adecuados
+        TMP = "C:/Temp"
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -21,6 +27,9 @@ pipeline {
         stage('Install Playwright Browsers') {
             steps {
                 script {
+                    // Establece el directorio temporal para Playwright
+                    bat 'set TEMP=C:\\Temp'
+                    bat 'set TMP=C:\\Temp'
                     // Instala los navegadores necesarios para Playwright
                     bat 'npx playwright install'
                 }
