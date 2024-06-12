@@ -12,6 +12,7 @@
     "@types/node": "latest",
     "@types/pg": "^8.11.6",
     "dotenv": "^16.4.5",
+    "mysql2": "^3.10.0",
     "pg": "^8.12.0"
   }
 }

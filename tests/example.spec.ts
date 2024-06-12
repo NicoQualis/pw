@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { SearchPage } from '../pages/search.page'
 import dotenv from 'dotenv';
-import { query } from '../db/database';
+import { queryPg, queryMysql } from '../db/database';
 import { Account, Dieta } from '../db/interfaces';
 
 test.beforeEach(async ({ page }) => {
@@ -61,15 +61,15 @@ test('api Spotify', {
   console.log(`Image 2 URL: ${responseSearchJson.images[1].url}`);
 });
 
-test('bd example', {
-  tag: '@db',
+test('bd PG example', {
+  tag: '@dbPg',
 }, async () => {
   const username = 'testqualis2';
   const password = 'password123';
 
-  await query<Account>('INSERT INTO accounts (username, password) VALUES ($1, $2)', [username, password]);
+  await queryPg<Account>('INSERT INTO accounts (username, password) VALUES ($1, $2)', [username, password]);
 
-  const res = await query<Account>('SELECT * FROM accounts WHERE username = $1', [username]);
+  const res = await queryPg<Account>('SELECT * FROM accounts WHERE username = $1', [username]);
   console.log(res.rows);
 
   expect(res.rows.length).toBeGreaterThan(0);
@@ -85,20 +85,68 @@ test('bd example', {
 });
 
 
-test('bd example 2', {
-  tag: '@db2',
+test('bd PG example 2', {
+  tag: '@db2 Pg',
 }, async () => {
   const comida = 'milanesas con pure';
   const cantdias = '6 dias';
 
-  await query<Dieta>('INSERT INTO dieta (comida, cantdias) VALUES ($1, $2)', [comida, cantdias]);
+  await queryPg<Dieta>('INSERT INTO dieta (comida, cantdias) VALUES ($1, $2)', [comida, cantdias]);
 
-  const res = await query<Dieta>('SELECT * FROM dieta WHERE comida = $1', [comida]);
+  const res = await queryPg<Dieta>('SELECT * FROM dieta WHERE comida = $1', [comida]);
   console.log(res.rows);
 
   expect(res.rows.length).toBeGreaterThan(0);
 
   const lastUser = res.rows.length > 0 ? res.rows.pop() : undefined;
+
+  if (lastUser) {
+    expect(lastUser.comida).toBe(comida);
+    expect(lastUser.cantdias).toBe(cantdias);
+  } else {
+    throw new Error('No se encontraron registros en la tabla dieta');
+  }
+});
+
+
+test('bd MYSQL example', {
+  tag: '@dbMysql',
+}, async () => {
+  const username = 'testqualis2';
+  const password = 'password123';
+
+  await queryMysql<Account>('INSERT INTO accounts (username, password) VALUES (?, ?)', [username, password]);
+
+  const res = await queryMysql<Account>('SELECT * FROM accounts WHERE username = ?', [username]);
+  console.log(res);
+
+  expect(res.length).toBeGreaterThan(0);
+
+  const lastUser = res[res.length - 1];
+
+  if (lastUser) {
+    expect(lastUser.username).toBe(username);
+    expect(lastUser.password).toBe(password);
+  } else {
+    throw new Error('No se encontraron registros en la tabla accounts');
+  }
+});
+
+
+test('bd2 MYSQL example', {
+  tag: '@db2Mysql',
+}, async () => {
+  const comida = 'milanesas con pure';
+  const cantdias = '6 dias';
+
+  await queryMysql<Dieta>('INSERT INTO dieta (comida, cantdias) VALUES (?, ?)', [comida, cantdias]);
+
+  const res = await queryMysql<Dieta>('SELECT * FROM dieta WHERE comida = ?', [comida]);
+  console.log(res);
+
+  expect(res.length).toBeGreaterThan(0);
+
+  const lastUser = res[res.length - 1];
 
   if (lastUser) {
     expect(lastUser.comida).toBe(comida);
