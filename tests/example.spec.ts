@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import { queryPg, queryMysql } from '../db/database';
 import { Account, Dieta } from '../db/interfaces';
 
+
 test.beforeEach(async ({ page }) => {
   dotenv.config();
   await page.goto('https://www.mercadolibre.com.ar')
@@ -62,7 +63,7 @@ test('api Spotify', {
 });
 
 test('bd PG example', {
-  tag: '@dbPg',
+  tag: ['@dbPg','@QC-4321'],
 }, async () => {
   const username = 'testqualis2';
   const password = 'password123';
@@ -154,4 +155,33 @@ test('bd2 MYSQL example', {
   } else {
     throw new Error('No se encontraron registros en la tabla dieta');
   }
+});
+
+
+test('whatsapp', {
+  tag: '@whatsapp',
+}, async ({request}) => {
+  const url = 'https://graph.facebook.com/v19.0/358871443971700/messages';
+  const headers = {
+    'Authorization': 'Bearer EAATdz5keKVkBO6Wm9ELwmfQaqqiy38Rck7tUtzH1ArtqNBWlIoC0aQw0PERtDeIfGfwPjXZB13zVFafX4OHJv4MfZA1mgUzceV3ji23BMTz57lieG4kqV0z0t8C4mlGPm758ms3AQGDOPZAYPIZBpEDAxHyM66KkmZCZCCYPhFjtMiZBIwUuqq2x6eZC0XkWUCj9myxJEN7ipwPZAN1VYd0sZD',
+    'Content-Type': 'application/json'
+  };
+  const data = {
+    messaging_product: 'whatsapp',
+    recipient_type: "individual",
+    to: '+541130612070',
+    type: 'text',
+    text: {
+    body: "Hola"
+     }
+  };
+
+  const response = await request.post(url, {
+    headers,
+    data
+  });
+
+  expect(response.status()).toBe(200);
+  const responseBody = await response.json();
+  console.log(responseBody);
 });

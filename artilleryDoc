@@ -1,0 +1,13 @@
+install artillery global
+npm install -g artillery
+
+install playwright engine
+npm install -g artillery artillery-engine-playwright
+
+run artillery test
+artillery run artillery.yml
+
+view on cli artillery
+- create user and get key_id
+- artillery run artillery.yml --record --key key_id
+artillery run artillery.yml --record --key a9_uuxFAHb8-jdPQiaxtsM3H933P2Nmvuzs

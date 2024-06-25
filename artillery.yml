@@ -1,0 +1,24 @@
+config:
+  target: https://www.mercadolibre.com.ar
+  phases:
+    - duration: 30
+      arrivalRate: 1
+      rampTo: 10
+      name: Qualis Test
+    #- duration: 60
+    #  arrivalRate: 5
+    #  rampTo: 10
+    #  name: Ramp up load
+    #- duration: 30
+    #  arrivalRate: 10
+    #  rampTo: 30
+    #  name: Spike phase
+  engines:
+    playwright:
+      aggregateByName: true,
+      launchOptions:
+        headless: true
+  processor: './tests/artillery/artillery.ts'
+scenarios:
+  - engine: playwright
+    testFunction: 'spotifyTest'
